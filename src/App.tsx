@@ -1,14 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Home from './pages/home';
 import Cart from './pages/cart';
 import Layout from './components/layout';
+import { Product } from './utils/types';
 
 function App() {
-  const [listProducts, setListProducts] = useState<[]>([]);
-  const [listProductsCart, setListProductsCart] = useState<[]>([]);
+  const [listProducts, setListProducts] = useState<Product[]>([]);
+  const [listProductsCart, setListProductsCart] = useState<Product[]>([]);
   return (
     <Routes>
       <Route path="/" element={ <Layout /> }>
@@ -16,7 +16,7 @@ function App() {
           index
           element={ <Home
             listProducts={ listProducts }
-            setListProductsCart={ setListProductsCart } 
+            setListProductsCart={ setListProductsCart }
           /> }
         />
         <Route path="/cart" element={ <Cart listProductsCart={ listProductsCart } /> } />
