@@ -1,4 +1,4 @@
-import { Product } from "../../utils/types";
+import { Product } from '../../utils/types';
 
 type CartProps = {
   // aqui vamos receber a lista de produtos para o carrinho como Props,mas ainda não temos o tipo da lista de produtos no carrinho, após criar o ProductType, terá que colocar na tipagem: listProductsCart: Productype[]
