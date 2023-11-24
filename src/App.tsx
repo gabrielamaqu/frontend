@@ -13,10 +13,7 @@ function App() {
   // // useEffect implementada só para passar no lint, caso não o setListProducts iria acusar, que foi chamado e nunca declarado. Apagar quando for criar outros requisitos
   useEffect(() => {
     const carregarLista = () => {
-      const objToAdd : Product = {
-        name: 'bola',
-      };
-      setListProducts((prevList) => [...prevList, objToAdd]);
+      setListProducts((prevList) => [...prevList]);
     };
     carregarLista();
   }, []);
