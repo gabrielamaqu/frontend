@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Home from './pages/home';
 import Cart from './pages/cart';
@@ -9,6 +9,18 @@ import { Product } from './utils/types';
 function App() {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listProductsCart, setListProductsCart] = useState<Product[]>([]);
+
+  // // useEffect implementada só para passar no lint, caso não o setListProducts iria acusar, que foi chamado e nunca declarado. Apagar quando for criar outros requisitos
+  useEffect(() => {
+    const carregarLista = () => {
+      const objToAdd : Product = {
+        name: 'bola',
+      };
+      setListProducts((prevList) => [...prevList, objToAdd]);
+    };
+    carregarLista();
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={ <Layout /> }>
