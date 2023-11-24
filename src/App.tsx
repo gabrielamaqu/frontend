@@ -1,23 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Home from './pages/home';
+import Cart from './pages/cart';
+import Layout from './components/layout';
+import { Product } from './utils/types';
 
 function App() {
+  const [listProducts, setListProducts] = useState<Product[]>([]);
+  const [listProductsCart, setListProductsCart] = useState<Product[]>([]);
+
+  // // useEffect implementada só para passar no lint, caso não o setListProducts iria acusar, que foi chamado e nunca declarado. Apagar quando for criar outros requisitos
+  useEffect(() => {
+    const carregarLista = () => {
+      setListProducts((prevList) => [...prevList]);
+    };
+    carregarLista();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <p>Edit src/App.js and save to reload.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={ <Layout /> }>
+        <Route
+          index
+          element={ <Home
+            listProducts={ listProducts }
+            setListProductsCart={ setListProductsCart }
+          /> }
+        />
+        <Route path="/cart" element={ <Cart listProductsCart={ listProductsCart } /> } />
+      </Route>
+    </Routes>
   );
 }
 
