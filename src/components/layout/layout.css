@@ -1,0 +1,28 @@
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.5rem 2rem;
+  background-color: blue;
+  color: white;
+}
+
+.input-layout {
+  height: 2.18rem;
+}
+
+.container-title-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navlink-car {
+  margin-left: 1rem;
+  color: white;
+}
+
+.navlink-car:hover {
+  color: red;
+  background-color: rgba(0, 0, 0, 0.118);
+}
