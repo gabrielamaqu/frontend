@@ -34,7 +34,7 @@ function Home({ listProducts, setListProductsCart }: HomeProps) {
   }, []);
 
   // Função para capturar o click na categoria
-  const handleCategoryClick = () => {
+  const handleCategotyClick = () => {
     // espaço para criar rota para a pagina das categoria
   };
 
@@ -56,8 +56,12 @@ function Home({ listProducts, setListProductsCart }: HomeProps) {
         <h3>Categorias</h3>
         <div>
           {categories.map((category: any) => (
-            <button data-testid="category" onClick={ handleCategoryClick } key={ category.id }>
-              { category.name }
+            <button
+              data-testid="category"
+              onClick={ handleCategotyClick }
+              key={ category.id }
+            >
+              {category.name}
             </button>
           ))}
         </div>
