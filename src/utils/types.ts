@@ -1,5 +1,6 @@
-// type de Product temporário
 export type Product = {
-  // colocar aqui os objetos corretos
-  name: string
+  title: string,
+  id: number,
+  price: number,
+  thumbnail: string
 };
