@@ -20,6 +20,7 @@ function App() {
           element={ <Home
             listProducts={ listProducts }
             setListProductsCart={ setListProductsCart }
+            setListProducts={ setListProducts }
           /> }
         />
         <Route path="/cart" element={ <Cart listProductsCart={ listProductsCart } /> } />
