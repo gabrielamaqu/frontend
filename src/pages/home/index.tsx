@@ -1,5 +1,6 @@
 import './home.css';
 import { useEffect, useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { Product } from '../../utils/types';
 import { getCategories, getProductsFromCategoryAndQuery } from '../../services/api';
 
@@ -20,6 +21,7 @@ function Home({ listProducts, setListProducts, setListProductsCart }: HomeProps)
       id: 0,
       price: 0,
       thumbnail: '',
+      picture: '',
     };
     setListProductsCart((prevList) => [...prevList, objToAdd]);
   };
@@ -60,20 +62,27 @@ function Home({ listProducts, setListProducts, setListProductsCart }: HomeProps)
       ) : (
         <main>
           {listProducts.map((product) => (
-            <div key={ product.id } data-testid="product">
-              <img src={ product.thumbnail } alt={ product.title } />
-              <h3>{ product.title }</h3>
-              <span>
-                Preço: R$
-                { product.price }
-              </span>
-            </div>
+            <Link
+              key={ product.id }
+              to={ `/product/${product.id}` }
+              data-testid="product-detail-link"
+            >
+              <div key={ product.id } data-testid="product">
+                <img src={ product.thumbnail } alt={ product.title } />
+                <h3>{ product.title }</h3>
+                <span>
+                  Preço: R$
+                  { product.price }
+                </span>
+              </div>
+            </Link>
           ))}
         </main>
       )}
 
-      {/* botão de teste para o carrinho */}
-      <button onClick={ handleAddToCart }>ADD TO CAR</button>
+      <NavLink to="/cart">
+        <button onClick={ handleAddToCart }>ADD TO CAR</button>
+      </NavLink>
 
       <aside className="categories">
         <h3>Categorias</h3>
