@@ -22,25 +22,33 @@ function ProductDetail() {
     fetchProduct();
   }, [productId]);
 
+  const addToCart = () => {
+    if (product) {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart.push(product);
+    }
+  };
+
   return (
     <div className="product-detail-page">
       {product ? (
         <div>
-          <h2 data-testid="product-detail-name">{ product.title }</h2>
+          <h2 data-testid="product-detail-name">{product.title}</h2>
           <img
             src={ product.picture }
             alt={ product.title }
             data-testid="product-detail-image"
           />
-          <p
-            data-testid="product-detail-price"
-          >
+          <p data-testid="product-detail-price">
             Preço: R$
-            { product.price }
+            {product.price}
           </p>
-          <Link to="/cart">
-            <button>Adicionar ao Carrinho</button>
+          <Link to={ `/product/${productId}` } data-testid="shopping-cart-button">
+            Detalhes do Produto
           </Link>
+          <button onClick={ addToCart } data-testid="product-detail-add-to-cart">
+            Adicionar ao Carrinho
+          </button>
         </div>
       ) : (
         <p>Carregando detalhes do produto...</p>
