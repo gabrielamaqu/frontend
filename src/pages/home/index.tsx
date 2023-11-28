@@ -14,44 +14,40 @@ function Home({ listProducts, setListProducts, setListProductsCart }: HomeProps)
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // // função implementada só para passar no lint, caso não o setListProducts iria acusar, que foi chamado e nunca declarado. Apagar quando for criar outros requisitos
-  const handleAddToCart = () => {
-    const objToAdd : Product = {
-      title: 'bola',
-      id: 0,
-      price: 0,
-      thumbnail: '',
-      picture: '',
-    };
-    setListProductsCart((prevList) => [...prevList, objToAdd]);
+  // Função para adicionar um produto ao carrinho
+  const handleAddToCartClick = (product: Product) => {
+    setListProductsCart((prevCart) => [...prevCart, product]);
   };
 
-  // Chama a API de categorias
-  const fetchCategoryList = async () => {
-    try {
-      const productsCategory = await getCategories();
-      setCategories(productsCategory);
-    } catch (error) {
-      console.log('Erro ao buscar categorias de produtos ', error);
-    }
-  };
-
-  // Função para capturar o click na categoria
+  // Função para capturar o clique na categoria
   const handleCategoryClick = async (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    try {
-      const data = await getProductsFromCategoryAndQuery(categoryId, '');
-      setListProducts(data.results);
-      console.log(selectedCategory);
-    } catch (error) {
-      console.log('Erro ao buscar produtos da categoria ', error);
-      setListProducts([]);
+    // Evite fazer uma chamada à API se a categoria já estiver selecionada
+    if (categoryId !== selectedCategory) {
+      setSelectedCategory(categoryId);
+      try {
+        const data = await getProductsFromCategoryAndQuery(categoryId, '');
+        setListProductsCart((prevCart) => [...prevCart, ...data.results]);
+      } catch (error) {
+        console.log('Erro ao buscar produtos da categoria ', error);
+      }
     }
   };
 
+  // Use useEffect para chamar a função de buscar categorias ao montar o componente
   useEffect(() => {
+    const fetchCategoryList = async () => {
+      if (categories.length === 0) {
+        try {
+          const productsCategory = await getCategories();
+          setCategories(productsCategory);
+        } catch (error) {
+          console.log('Erro ao buscar categorias de produtos ', error);
+        }
+      }
+    };
+
     fetchCategoryList();
-  }, []);
+  }, [categories]);
 
   return (
     <div className="home-page">
@@ -69,19 +65,33 @@ function Home({ listProducts, setListProducts, setListProductsCart }: HomeProps)
             >
               <div key={ product.id } data-testid="product">
                 <img src={ product.thumbnail } alt={ product.title } />
-                <h3>{ product.title }</h3>
+                <h3>{product.title}</h3>
                 <span>
                   Preço: R$
                   { product.price }
                 </span>
+                <div data-testid="product-add-to-cart">
+                  <button
+                    onClick={ () => handleAddToCartClick(product) }
+                    data-testid="product-add-to-cart"
+                  >
+                    ADD TO CART
+                  </button>
+                </div>
               </div>
             </Link>
           ))}
         </main>
       )}
 
+      <button
+        data-testid="product-add-to-cart"
+      >
+        ADD TO CART
+      </button>
+
       <NavLink to="/cart">
-        <button onClick={ handleAddToCart }>ADD TO CAR</button>
+        <button data-testid="go-to-cart-link">GO TO CART</button>
       </NavLink>
 
       <aside className="categories">
@@ -93,12 +103,11 @@ function Home({ listProducts, setListProducts, setListProductsCart }: HomeProps)
               onClick={ () => handleCategoryClick(category.id) }
               key={ category.id }
             >
-              { category.name }
+              {category.name}
             </button>
           ))}
         </div>
       </aside>
-
     </div>
   );
 }

@@ -11,10 +11,21 @@ function Cart({ listProductsCart } : CartProps) {
       {listProductsCart.length === 0 ? (
         <h3 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h3>
       ) : (
-        // Renderizar a lista de produtos no carrinho quando a lista não estiver vazia
-        // Coloque aqui o código para renderiza a lista de produtos
-        // Apague este h3 abaixo após pegar a lista
-        <h3>Carrinho com produtos</h3>
+        <div>
+          {listProductsCart.map((product, index) => (
+            <div key={ index } className="cart-item">
+              <p data-testid={ `shopping-cart-product-name-${index}` }>{product.title}</p>
+              <p>
+                Preço: R$
+                {product.price}
+              </p>
+              <p data-testid={ `shopping-cart-product-quantity-${index}` }>
+                Quantidade:
+                {product.id}
+              </p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
